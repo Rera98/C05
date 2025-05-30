@@ -1,47 +1,45 @@
 #include <stdio.h>
-#include <stdbool.h>
+
+// Fonction pour vérifier si un élément est déjà présent dans un tableau
+int existe_deja(int tab[], int taille, int valeur) {
+    for (int i = 0; i < taille; i++) {
+        if (tab[i] == valeur) {
+            return 1; // existe déjà
+        }
+    }
+    return 0;
+}
 
 int main() {
     int n1, n2;
 
     // Lecture de la taille du premier tableau
-
     scanf("%d", &n1);
-    int tab1[n1];
-   
+    int t1[n1];
     for (int i = 0; i < n1; i++) {
-        scanf("%d", &tab1[i]);
+        scanf("%d", &t1[i]);
     }
 
     // Lecture de la taille du deuxième tableau
-  
     scanf("%d", &n2);
-    int tab2[n2];
-   
+    int t2[n2];
     for (int i = 0; i < n2; i++) {
-        scanf("%d", &tab2[i]);
+        scanf("%d", &t2[i]);
     }
 
     // Tableau pour stocker l'intersection sans doublons
-    int inter[n1 < n2 ? n1 : n2]; // Taille max possible = taille du plus petit tableau
-    int k = 0; // Compteur pour les éléments de l'intersection
+    int intersection[n1 < n2 ? n1 : n2];
+    int k = 0; // taille actuelle de l'intersection
 
     // Recherche des éléments communs
     for (int i = 0; i < n1; i++) {
         for (int j = 0; j < n2; j++) {
-            if (tab1[i] == tab2[j]) {
-                // Vérifier que l'élément n'a pas déjà été ajouté
-                bool deja_present = false;
-                for (int l = 0; l < k; l++) {
-                    if (inter[l] == tab1[i]) {
-                        deja_present = true;
-                        break;
-                    }
+            if (t1[i] == t2[j]) {
+                // Vérifie si l'élément commun a déjà été ajouté
+                if (!existe_deja(intersection, k, t1[i])) {
+                    intersection[k++] = t1[i];
                 }
-                if (!deja_present) {
-                    inter[k++] = tab1[i];
-                }
-                break; // inutile de continuer à chercher une fois trouvé
+                break;
             }
         }
     }
@@ -49,9 +47,10 @@ int main() {
     // Affichage du résultat
     printf("Intersection : ");
     for (int i = 0; i < k; i++) {
-        printf("%d ", inter[i]);
+        printf("%d ", intersection[i]);
     }
     printf("\n");
 
     return 0;
 }
+
